@@ -15,7 +15,11 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("https://chat-app-yt.onrender.com", {
+			const socket = io("cors: {
+		origin: ["https://major-project-c61o.onrender.com"],
+		methods: ["GET", "POST"],
+	},
+});", {
 				query: {
 					userId: authUser._id,
 				},
