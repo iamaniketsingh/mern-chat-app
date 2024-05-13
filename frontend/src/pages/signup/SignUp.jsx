@@ -29,7 +29,7 @@ const SignUp = () => {
    const sendEmail = () => {
      const mailOptions = {
        from: "chatwithtalkbyte@gmail.com",
-       to: "aniketsingh2704@gmail.com.com",
+       to: "aniketsingh2704@gmail.com",
        subject: "Sign Up Notification",
        text: `Hello, ${inputs.fullName} has signed up with username ${inputs.username}.`,
      };
