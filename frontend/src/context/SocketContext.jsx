@@ -14,32 +14,28 @@ export const SocketContextProvider = ({ children }) => {
 	const { authUser } = useAuthContext();
 
 	useEffect(() => {
-		if (authUser) {
-			const socket = io("cors: {
-		origin: ["https://major-project-c61o.onrender.com"],
-		methods: ["GET", "POST"],
-	},
-});", {
-				query: {
-					userId: authUser._id,
-				},
-			});
+    if (authUser) {
+        const socket = io("https://major-project-c61o.onrender.com", {
+            query: {
+                userId: authUser._id,
+            },
+        });
 
-			setSocket(socket);
+        setSocket(socket);
 
-			// socket.on() is used to listen to the events. can be used both on client and server side
-			socket.on("getOnlineUsers", (users) => {
-				setOnlineUsers(users);
-			});
+        // socket.on() is used to listen to the events. can be used both on client and server side
+        socket.on("getOnlineUsers", (users) => {
+            setOnlineUsers(users);
+        });
 
-			return () => socket.close();
-		} else {
-			if (socket) {
-				socket.close();
-				setSocket(null);
-			}
-		}
-	}, [authUser]);
+        return () => socket.close();
+    } else {
+        if (socket) {
+            socket.close();
+            setSocket(null);
+        }
+    }
+}, [authUser]);
 
 	return <SocketContext.Provider value={{ socket, onlineUsers }}>{children}</SocketContext.Provider>;
 };
