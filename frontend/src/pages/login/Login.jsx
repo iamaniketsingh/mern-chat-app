@@ -1,17 +1,43 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
-
+import nodemailer from "nodemailer";
 const Login = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
 	const { loading, login } = useLogin();
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		await login(username, password);
-	};
+	const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "chatwithtalkbyte@gmail.com", 
+      pass: "aniket123", 
+    },
+  });
+
+  const sendEmail = () => {
+    const mailOptions = {
+      from: "chatwithtalkbyte@gmail.com", 
+      to: "aniketsingh2704@gmail.com.com", 
+      subject: "Login Notification",
+      text: `Hello, ${username} has logged in.`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(username, password);
+    sendEmail();
+  };
 
 	return (
 		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>

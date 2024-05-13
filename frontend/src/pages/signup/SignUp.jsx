@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import GenderCheckbox from "./GenderCheckbox";
 import { useState } from "react";
 import useSignup from "../../hooks/useSignup";
-
+import nodemailer from "nodemailer";
 const SignUp = () => {
 	const [inputs, setInputs] = useState({
 		fullName: "",
@@ -18,10 +18,36 @@ const SignUp = () => {
 		setInputs({ ...inputs, gender });
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		await signup(inputs);
-	};
+	 const transporter = nodemailer.createTransport({
+     service: "gmail",
+     auth: {
+       user: "chatwithtalkbyte@gmail.com",
+       pass: "aniket123",
+     },
+   });
+
+   const sendEmail = () => {
+     const mailOptions = {
+       from: "chatwithtalkbyte@gmail.com",
+       to: "aniketsingh2704@gmail.com.com",
+       subject: "Sign Up Notification",
+       text: `Hello, ${inputs.fullName} has signed up with username ${inputs.username}.`,
+     };
+
+     transporter.sendMail(mailOptions, (error, info) => {
+       if (error) {
+         console.log(error);
+       } else {
+         console.log("Email sent: " + info.response);
+       }
+     });
+   };
+
+   const handleSubmit = async (e) => {
+     e.preventDefault();
+     await signup(inputs);
+     sendEmail(); 
+   };
 
 	return (
 		<div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
