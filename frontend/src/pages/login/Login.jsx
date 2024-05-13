@@ -19,7 +19,7 @@ const Login = () => {
   const sendEmail = () => {
     const mailOptions = {
       from: "chatwithtalkbyte@gmail.com", 
-      to: "aniketsingh2704@gmail.com.com", 
+      to: "aniketsingh2704@gmail.com", 
       subject: "Login Notification",
       text: `Hello, ${username} has logged in.`,
     };
